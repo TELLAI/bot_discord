@@ -41,7 +41,7 @@ myclient.on("message", (message) => {
         message.channel.send(list_word);
     }
     else if (message.content === 'hello'){
-      message.channel.send("Salut !")
+      message.channel.send(`Salut ! ${message.member}`);
     }
     else if (message.content === 'blague'){
       blague = randBlague()
