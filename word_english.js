@@ -14,14 +14,17 @@ const list_word = [];
 const ponct = " ==> ";
 let count = 1;
 
-for (let i = 0; i < 10; i++) {
-  let clé = Object.keys(obj)[
-    Math.floor(Math.random() * Object.keys(obj).length)
-  ];
-  let prefix = ((count).toString()).concat("", ponct)
-  let word = prefix.concat(obj[clé][Math.floor(Math.random() * obj[clé].length)]);
-  list_word.push(word);
-  count++;
+function randWord(list_word){
+  for (let i = 0; i < 10; i++) {
+    let clé = Object.keys(obj)[
+      Math.floor(Math.random() * Object.keys(obj).length)
+    ];
+    let prefix = ((count).toString()).concat("", ponct)
+    let word = prefix.concat(obj[clé][Math.floor(Math.random() * obj[clé].length)]);
+    list_word.push(word);
+    count++;
+  }
+  return list_word;
 }
 
 myclient.on('ready', client => {
@@ -35,17 +38,17 @@ function randBlague(){
       return blague;
     }
 
-myclient.on("message", (message) => {
+myclient.on("message", (msg) => {
  
-    if (message.content === 'english'){
-        message.channel.send(list_word);
+    if (msg.content === 'english'){
+        msg.channel.send(randWord(list_word));
     }
-    else if (message.content === 'hello'){
-      message.channel.send(`Salut ! ${message.member}`);
+    else if (msg.content === 'hello'){
+      msg.channel.send(`Salut ! ${msg.member}`);
     }
-    else if (message.content === 'blague'){
+    else if (msg.content === 'blague'){
       blague = randBlague()
-      message.channel.send(blague["joke"] + "\n\n" + blague["answer"])
+      msg.channel.send(blague["joke"] + "\n\n" + blague["answer"])
     }
 })
 
