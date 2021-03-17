@@ -1,47 +1,44 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 
-//client is a way to communicate to discord
 client.on('ready', () => {
     console.log(`${client.user.tag}! is here and ready to yell!`);
 });
 
-var weather = require('weather-js');
 
-module.exports = {
-    name: "weather",
-    description: "Checks a weather forecast",
+const weather = require("weather-js");
 
-    async execute (client, message, args, Discord){
+weather.find(
+    { search: "Paris, France", degreeType: "C" },
+    function (err, result) {
+    if (err) console.log(err);
 
-    weather.find({search: args.join(" "), degreeType: 'F'}, function (error, result){
-        // 'C' can be changed to 'F' for farneheit results
-        if(error) return message.channel.send(error);
-        if(!args[0]) return message.channel.send(`${message.author}, Please specify a location`)
-
-        if(result === undefined || result.length === 0) return message.channel.send(`${message.author}, **Invalid** location`);
-
-        var current = result[0].current;
-        var location = result[0].location;
-
-        const weatherinfo = new Discord.MessageEmbed()
-        .setDescription(`**${current.skytext}**`)
-        .setAuthor(`Weather forecast for ${current.observationpoint}`)
-        .setThumbnail(current.imageUrl)
-        .setColor(`#f3f3f3`)
-        .addField('Timezone', `UTC${location.timezone}`, true)
-        .addField('Degree Type', 'Farenheit', true) // If you changed 'F' to 'C' then make sure this corresponds with Farenheit or Celcius
-        .addField('Temperature', `${current.temperature}°`, true)
-        .addField('Wind', current.winddisplay, true)
-        .addField('Feels like', `${current.feelslike}°`, true)
-        .addField('Humidity', `${current.humidity}%`, true)
+    client.on("message", (msg) => {
+        if (msg.content === "meteo") {
+            msg.channel.send(fullMeteo);
+            // or reply instead of channel.send
+        }
+    });
 
 
-        message.channel.send(weatherinfo)
-        })        
+    const weatherFull = result[0]
+    const location = weatherFull["location"]
+    const paris = location["name"]
+    const weatherInfo = weatherFull["current"] // temp, wind, feelslike etc
+    const temp = weatherInfo["temperature"]
+    const wind = weatherInfo["windspeed"]
+    const feels = weatherInfo["feelslike"]
+    const sky = weatherInfo["skytext"]
+    const humidity = weatherInfo["humidity"]
+    
+    const fullMeteo = `Weather in ${paris} today: ${sky}, temperature is ${temp}°C, real feeling is ${feels}°C, humidity level is ${humidity} and the speed of wind is ${wind} km/h. Have a lovely day!`
+    // console.log(fullMeteo)// const temperature = 
+    // console.log(result[0]["location"]["name"]);
+    // console.log(result[0]["current"]["temperature"]);
+    // console.log(result[0]["forecast"][0]['day']);
     }
-}
+);
 
-// logging in
 const { token } = require("./config.json");
-client.login(token)
+client.login(token);
+
