@@ -26,14 +26,14 @@ const details = {
 
 function response(fullMeteo) {
     client.on("message", (msg) => {
-        if (msg.content === "meteo") {
+        if (msg.content === "!meteo") {
             msg.channel.send(fullMeteo);
             // or reply instead of channel.send
         }
     });
 }
 
-export const parseResult = (err, result) => {
+const parseResult = (err, result) => {
     if (err) console.log(err);
     // console.log(result)
     // check if my phrase has keys I need, if there is an input, it is not empty

@@ -13,7 +13,7 @@ describe('testing weather file', function() {
         let result = parseResult();
         assert.typeOf(result, 'string')
     })
-
+}
 
 // })
 
