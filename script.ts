@@ -1,6 +1,6 @@
- const Discord2 : any =  require('discord.js');
+const Discord2 : any =  require('discord.js');
 
- const myclient2 : any = new Discord2.Client();
+const myclient2 : any = new Discord2.Client();
 
 const { token, PREFIX } : any = require("./config");
 
