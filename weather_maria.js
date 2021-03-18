@@ -33,12 +33,12 @@ function response(fullMeteo) {
     });
 }
 
-const parseResult = (err, result) => {
+export const parseResult = (err, result) => {
     if (err) console.log(err);
     // console.log(result)
     // check if my phrase has keys I need, if there is an input, it is not empty
     // ex if I put METEO, I must receive an answer
-
+    console.log(result)
     // test that json in result has the keys that I need
     const weatherFull = result[0]
     const location = weatherFull["location"]
@@ -72,7 +72,11 @@ module.exports = {
     parseResult
 }
 
-
+// export function Course() {
+//     this.id = '';
+//     this.name = '';
+// };
+// import { Course } from './course.js';
 
 
 
