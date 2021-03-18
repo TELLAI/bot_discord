@@ -6,5 +6,5 @@ jobs:
   first_test:
     runs-on: ubuntu-latest
     steps:
-    - name: test1
-      run: node test1.js
+    - name: test_1
+      run: node test_1.js
