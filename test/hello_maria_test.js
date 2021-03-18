@@ -5,14 +5,15 @@ const importFile = require('../functions_weather.js');
 
 describe('testing weather file', function() {
     it('check if fullMeteo is a string datatype', function() {
-        assert.equal(importFile.parsing_json, 'string')
+        assert.equal(importFile.parsing_json(), 'string')
     }),
 
     it("test response", function () {
-        assert.equal(importFile.response("meteo"), fullMeteo);
+        fullMeteo = importFile.parsing_json()
+        assert.equal(importFile.response(importFile.parsing_json()), fullMeteo);
     });
 
-})
+});
 
 
 // describe('testing weather file', function() {
