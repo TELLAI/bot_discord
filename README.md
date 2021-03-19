@@ -21,6 +21,11 @@ He is just a baby :baby:, and he will most certainly learn some new tricks in th
  - [ ] Add more functonalities
  - [ ] Deploy to Azure app service
 
+ ## How to use :computer:
+ - meteo to get weather
+ - blague to read a funny joke
+ - salut, bye, merci etc - to see a cute gif
+ - english to learn new words in English
  
  ## Installation :computer:
 Coming soon...
