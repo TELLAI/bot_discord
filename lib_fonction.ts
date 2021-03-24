@@ -25,20 +25,20 @@ export function getWeather() { // promise is used to wait for smth
 });
 
 }
-export function parseResult(err, result)  {
+export function parseResult(err, result) : string {
   if (err) console.log(err);
 
-  const weatherFull = result[0]
-  const location = weatherFull["location"]
-  const paris = location["name"]
-  const weatherInfo = weatherFull["current"] // temp, wind, feelslike etc
-  const temp = weatherInfo["temperature"]
-  const wind = weatherInfo["windspeed"]
-  const feels = weatherInfo["feelslike"]
-  const sky = weatherInfo["skytext"]
-  const humidity = weatherInfo["humidity"]
+  const weatherFull : string = result[0]
+  const location : string = weatherFull["location"]
+  const paris : string = location["name"]
+  const weatherInfo : string = weatherFull["current"] // temp, wind, feelslike etc
+  const temp : string = weatherInfo["temperature"]
+  const wind : string = weatherInfo["windspeed"]
+  const feels : string = weatherInfo["feelslike"]
+  const sky : string = weatherInfo["skytext"]
+  const humidity : string = weatherInfo["humidity"]
   
-  const fullMeteo = `Weather in ${paris} today: ${sky}, temperature is ${temp}°C, real feeling is ${feels}°C, humidity level is ${humidity} and the speed of wind is ${wind} km/h. Have a lovely day!`
+  const fullMeteo : string = `Weather in ${paris} today: ${sky}, temperature is ${temp}°C, real feeling is ${feels}°C, humidity level is ${humidity} and the speed of wind is ${wind} km/h. Have a lovely day!`
   console.log(fullMeteo);
   return fullMeteo;
   }
@@ -48,15 +48,15 @@ export async function searchAndReply(msg) {
           let fullMeteo = await getWeather(); 
           msg.channel.send(fullMeteo);
           // or reply instead of channel.send
+
       }
   } catch(err) {
       console.log("message error: ", err)
   }
 }
 
-}
-  export function randWord(){
-  const list_word : any = [];
+  export function randWord(): string[]{
+  const list_word : string[] = [];
   const ponct : string = " ==> ";
   let count : number = 1;
     for (let i = 0; i < 10; i++) {
@@ -69,64 +69,71 @@ export async function searchAndReply(msg) {
       count++;
     }
     return list_word;
+  } 
+  export function convert_msg(msg : any, txt : string){
+    try {
+      if (txt === "english") {
+        let liste: any = ins.randWord();
+        msg.channel.send(liste);
+        return liste;
+      } else if (txt === "hello") {
+        msg.channel.send(`Salut !`);
+        return `Salut !`;
+      } else if (txt === "blague") {
+        let blague: any = ins.randBlague();
+        msg.channel.send(blague[0] + "\n\n" + blague[1]);
+        return blague;
+      } else if (
+        txt === "bonne nuit" ||
+        txt === "ciao" ||
+        txt === "dodo"
+      ) {
+        msg.channel.send({ files: ["./images/soleil.gif"] });
+        return "./images/soleil.gif";
+      } else if (
+        txt === "amour" ||
+        txt === "love" ||
+        txt === "coeur"
+      ) {
+        msg.channel.send({ files: ["./images/coeur.gif"] });
+        return "./images/coeur.gif";
+      } else if (
+        txt === "merci" ||
+        txt === "thanks" ||
+        txt === "gracias"
+      ) {
+        msg.channel.send({ files: ["./images/merci.gif"] });
+        return "./images/merci.gif";
+      } else if (
+        txt === "aurevoir" ||
+        txt === "bye" ||
+        txt === "demain"
+      ) {
+        msg.channel.send({ files: ["./images/bye.gif"] });
+        return "./images/bye.gif";
+      } else if (txt.includes(`sac`)) {
+        msg.channel.send({ files: ["./images/sac.jpg"] });
+        return "./images/sac.jpg";
+      }
+    } catch (err) {
+      console.log("message error: ", err);
+    }
+
   }
-    export function randBlague(){
-    let blague : any = Object.values(obj2)[Math.floor(Math.random() * Object.keys(obj2).length)];
+    export function randBlague(): string[]{
+    const full_blague : any = Object.values(obj2)[Math.floor(Math.random() * Object.keys(obj2).length)];
+    const blague: string[] = [full_blague["joke"], full_blague["answer"]];
         return blague;
     }
     export async function response(myclient){
     myclient.on("message", (msg) => {
-      try {
-    
-        if (msg.content === 'english'){
-            let liste : any = ins.randWord()
-            msg.channel.send(liste);
-        }
-        else if (msg.content === 'hello'){
-        msg.reply(`Salut !`);
-        }
-        else if (msg.content === 'blague'){
-        let blague : any = ins.randBlague()
-        console.log(typeof(blague))
-        msg.channel.send(blague["joke"] + "\n\n" + blague["answer"])
-        }
-              else if (
-                msg.content === "bonne nuit" ||
-                msg.content === "ciao" ||
-                msg.content === "dodo"
-              ) {
-                msg.channel.send({ files: ["./images/soleil.gif"] });
-              } else if (
-                msg.content === "amour" ||
-                msg.content === "love" ||
-                msg.content === "coeur"
-              ) {
-                msg.channel.send({ files: ["./images/coeur.gif"] });
-              } else if (
-                msg.content === "merci" ||
-                msg.content === "thanks" ||
-                msg.content === "gracias"
-              ) {
-                msg.channel.send({ files: ["./images/merci.gif"] });
-              } else if (
-                msg.content === "aurevoir" ||
-                msg.content === "bye" ||
-                msg.content === "demain"
-              ) {
-                msg.channel.send({ files: ["./images/bye.gif"] });
-              }
-               else if (msg.content.startsWith(`${PREFIX}play`)){
-                   msg.reply("Play What ?");
-               }
-              else if (msg.content.includes(`sac`)){
-                  msg.channel.send({ files: ["./images/sac.jpg"] });
-              }
-              else if (msg.content === "meteo"){
-                ins.searchAndReply(msg)
-              }
-            }
-              catch(err) {
-                console.log("message error: ", err)
-            }
+      if (msg.content === "meteo"){
+        ins.searchAndReply(msg);
+      }
+      else {
+        const texte : string = msg.content
+      convert_msg(msg, texte)
+      }
+      
     })
 }
