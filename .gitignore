@@ -73,3 +73,11 @@ avec ton token
 
 # token js
 config.js
+
+config.json
+package-lock.json
+package.json
+node_modules
+json_word/generate_random_phrase.py
+json_word/twitch_parse.py
+json_word/README.md
